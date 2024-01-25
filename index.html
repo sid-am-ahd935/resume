@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="pdfViewer"></canvas>
+    <script>
+        // Load and display the PDF using PDF.js
+        const pdfPath = 'Aman_Ahmed_Siddiqui.pdf';
+        const canvas = document.getElementById('pdfViewer');
+        
+        // PDF.js setup
+        pdfjsLib.getDocument(pdfPath).promise.then(pdfDoc => {
+            pdfDoc.getPage(1).then(page => {
+                const scale = 1.5;
+                const viewport = page.getViewport({ scale });
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                page.render({ canvasContext: context, viewport });
+            });
+        });
+    </script>
+</body>
+</html>
